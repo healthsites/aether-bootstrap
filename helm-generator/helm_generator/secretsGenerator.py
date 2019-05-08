@@ -1,4 +1,3 @@
-import secrets
 import base64
 
 secrets_dict = {}
