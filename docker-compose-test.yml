@@ -134,20 +134,23 @@ services:
       service: aether-producer-base
     environment:
       # These variables will override the ones indicated in the settings file
-      PRODUCER_SETTINGS_FILE: /code/tests/conf/producer.json
+      # These variables will override the ones indicated in the settings file
       KAFKA_URL: kafka-test:29092
       KERNEL_URL: http://kernel-test:9000
-      KERNEL_USERNAME: ${TEST_KERNEL_ADMIN_USERNAME}
-      KERNEL_PASSWORD: ${TEST_KERNEL_ADMIN_PASSWORD}
-      POSTGRES_HOST: db-test
-      POSTGRES_DBNAME: aether-kernel-test
-      POSTGRES_USER: ${TEST_KERNEL_READONLY_DB_USERNAME}
-      POSTGRES_PASSWORD: ${TEST_KERNEL_READONLY_DB_PASSWORD}
+      LOG_LEVEL: DEBUG
+
       OFFSET_DB_HOST: db-test
-      OFFSET_DB_USER: postgres
-      OFFSET_DB_PORT: 5432
-      OFFSET_DB_PASSWORD: ${TEST_KERNEL_DB_PASSWORD}
       OFFSET_DB_NAME: producer_offset_db_test
+      OFFSET_DB_PASSWORD: ${KERNEL_DB_PASSWORD}
+      OFFSET_DB_PORT: 5432
+      OFFSET_DB_USER: postgres
+
+      POSTGRES_HOST: db-test
+      POSTGRES_DBNAME: ${TEST_KERNEL_DB_NAME:-test-kernel}
+
+      PRODUCER_ADMIN_PW: ${PRODUCER_ADMIN_PASSWORD}
+      PRODUCER_ADMIN_USER: ${PRODUCER_ADMIN_USER}
+      PRODUCER_SETTINGS_FILE: /code/tests/conf/producer.json
 
       SERVER_PORT: 9005
     links:
@@ -169,9 +172,12 @@ services:
       KERNEL_URL: http://kernel-test:9000
       KERNEL_USERNAME: ${TEST_KERNEL_ADMIN_USERNAME}
       KERNEL_PASSWORD: ${TEST_KERNEL_ADMIN_PASSWORD}
-      PRODUCER_ADMIN_USER: ${PRODUCER_ADMIN_USER}
-      PRODUCER_ADMIN_PW: ${PRODUCER_ADMIN_PASSWORD}
+
       PRODUCER_URL: http://producer-test:9005
+      PRODUCER_ADMIN_PW: ${PRODUCER_ADMIN_PASSWORD}
+      PRODUCER_ADMIN_USER: ${PRODUCER_ADMIN_USER}
+
+      TEST_REALM: test
     networks:
       - test
     command: test
